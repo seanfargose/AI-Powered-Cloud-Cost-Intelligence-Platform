@@ -1,11 +1,14 @@
 import './globals.css'
 import { Inter } from 'next/font/google'
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({
+  subsets: ['latin'],
+})
 
 export const metadata = {
   title: 'Cost Intelligence Platform',
-  description: 'AI-powered enterprise cloud cost optimization and intelligence platform',
+  description:
+    'AI-powered enterprise cloud cost optimization and intelligence platform',
 }
 
 export default function RootLayout({
@@ -14,11 +17,9 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
-        <div className="min-h-screen bg-gray-50">
-          {children}
-        </div>
+        {children}
       </body>
     </html>
   )

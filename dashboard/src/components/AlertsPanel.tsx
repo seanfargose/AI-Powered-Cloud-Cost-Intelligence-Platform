@@ -105,8 +105,11 @@ export function AlertsPanel({ alerts }: AlertsPanelProps) {
         ].map((filter) => (
           <button
             key={filter.key}
-            onClick={() => setSelectedFilter(filter.key as any)}
-            className={`flex-1 px-3 py-2 text-sm font-medium rounded-md transition-colors ${
+onClick={() =>
+  setSelectedFilter(
+    filter.key as "all" | "critical" | "warning" | "info"
+  )
+}            className={`flex-1 px-3 py-2 text-sm font-medium rounded-md transition-colors ${
               selectedFilter === filter.key
                 ? 'bg-white text-gray-900 shadow-sm'
                 : 'text-gray-600 hover:text-gray-900'

@@ -36,7 +36,7 @@ export function PredictiveInsights({ predictions }: PredictiveInsightsProps) {
       case 'cost_spike':
         return <TrendingUp className="w-5 h-5 text-warning-600" />
       case 'budget_risk':
-        return <AlertTriangle className="w-5 h-5 text-danger-600" />
+        return <AlertTriangle className="w-5 h-5    prediction.impact > 0 ? 'text-success-600' : 'text-danger-600' " />
       case 'optimization_opportunity':
         return <Lightbulb className="w-5 h-5 text-success-600" />
       default:
@@ -256,9 +256,17 @@ export function PredictiveInsights({ predictions }: PredictiveInsightsProps) {
           </div>
           
           <div className="p-3 bg-gray-50 rounded-lg">
-            <div className="text-lg font-semibold text-success-600">
+            {/* <div className="text-lg font-semibold text-success-600">
               {formatCurrency(Math.abs(predictions.find(p => p.impact < 0)?.impact || 0))}
-            </div>
+            </div> */}
+
+            <div className="text-lg font-semibold text-success-600">
+  {formatCurrency(
+    predictions
+      .filter(p => p.type === "optimization_opportunity")
+      .reduce((sum, p) => sum + p.impact, 0)
+  )}
+</div>
             <div className="text-gray-600">Potential Savings</div>
           </div>
         </div>

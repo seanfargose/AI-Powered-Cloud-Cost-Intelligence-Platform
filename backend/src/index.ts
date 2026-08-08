@@ -24,7 +24,7 @@ import { dashboardRoutes } from './routes/dashboard.js';
 
 import { errorHandler } from './middleware/error-handler.js';
 import { requestLogger } from './middleware/request-logger.js';
-
+import { dashboardCompatRoutes } from "./routes/dashboard-compat.js";
 
 
 dotenv.config({
@@ -244,14 +244,32 @@ class CostOptimizationServer {
       ));
     }
     
+    console.log('🔍 Dashboard dependencies:', {
+  dataPipelineService: !!this.dataPipelineService,
+  cacheService: !!this.cacheService,
+  aiAnalysisService: !!this.aiAnalysisService
+});
+
+this.app.use('/api/dashboard', dashboardRoutes(
+  this.dataPipelineService,
+  this.cacheService,
+  this.aiAnalysisService
+));
     this.app.use('/api/dashboard', dashboardRoutes(
       this.dataPipelineService,
       this.cacheService,
       this.aiAnalysisService
     ));
-
+// Compatibility endpoints for frontend
+this.app.use('/api', dashboardCompatRoutes());
     // Error handling
     this.app.use(errorHandler);
+
+  this.app._router.stack.forEach((r: any) => {
+  if (r.route) {
+    console.log(r.route.path);
+  }
+});
 
     // 404 handler
     this.app.use('*', (req, res) => {
@@ -305,6 +323,9 @@ class CostOptimizationServer {
       console.log('🔄 Running hourly cost data sync...');
       try {
         await this.dataPipelineService.syncCostData();
+        if (this.dataPipelineService) {
+    await this.dataPipelineService.syncCostData();
+}
         console.log('✅ Hourly cost data sync completed');
       } catch (error) {
         console.error('❌ Hourly cost data sync failed:', error);
@@ -316,6 +337,9 @@ class CostOptimizationServer {
       console.log('🧠 Running AI insights generation...');
       try {
         await this.dataPipelineService.generateInsights();
+        if (this.dataPipelineService) {
+    await this.dataPipelineService.generateInsights();
+}
         console.log('✅ AI insights generation completed');
       } catch (error) {
         console.error('❌ AI insights generation failed:', error);
@@ -326,7 +350,10 @@ class CostOptimizationServer {
     cron.schedule('0 */2 * * *', async () => {
       console.log('🔍 Running anomaly detection...');
       try {
-        await this.dataPipelineService.detectAnomalies();
+       await this.dataPipelineService.detectAnomalies();
+       if (this.dataPipelineService) {
+    await this.dataPipelineService.detectAnomalies();
+}
         console.log('✅ Anomaly detection completed');
       } catch (error) {
         console.error('❌ Anomaly detection failed:', error);
@@ -338,6 +365,9 @@ class CostOptimizationServer {
       console.log('🧹 Running cache cleanup...');
       try {
         await this.cacheService.cleanup();
+        if (this.cacheService) {
+    await this.cacheService.cleanup();
+}
         console.log('✅ Cache cleanup completed');
       } catch (error) {
         console.error('❌ Cache cleanup failed:', error);
@@ -384,6 +414,8 @@ Environment: ${process.env.NODE_ENV || 'development'}
     process.on('SIGTERM', () => this.shutdown());
     process.on('SIGINT', () => this.shutdown());
   }
+
+  
 
   private async shutdown() {
     console.log('🛑 Shutting down server...');

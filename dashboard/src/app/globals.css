@@ -2,103 +2,293 @@
 @tailwind components;
 @tailwind utilities;
 
+
+/* =========================================================
+   BASE
+   ========================================================= */
+
 @layer base {
+
   html {
     font-family: system-ui, sans-serif;
   }
+
+  body {
+    @apply bg-gray-50 text-gray-900;
+    transition:
+      background-color 0.25s ease,
+      color 0.25s ease;
+  }
+
+  /* DARK BODY */
+  .dark body {
+    background-color: #020617;
+    color: #f8fafc;
+  }
 }
 
+
+/* =========================================================
+   COMPONENTS
+   ========================================================= */
+
 @layer components {
-  /* Custom component styles */
-  .card {
-    @apply bg-white rounded-lg shadow-sm border border-gray-200 p-6;
+
+  /* -------------------------------------------------------
+     CARDS
+     ------------------------------------------------------- */
+.card {
+  @apply bg-white dark:bg-gray-900 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6 transition-colors duration-300;
+}
+
+
+  .dark .card {
+    @apply bg-slate-900 border-slate-700;
   }
-  
-  .card-header {
-    @apply flex items-center justify-between mb-4;
+
+.card-header {
+  @apply flex items-center justify-between mb-4;
+}
+
+
+
+.metric-card {
+  @apply bg-white dark:bg-gray-900 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-4 transition-colors duration-300;
+}
+  .dark .metric-card {
+    @apply bg-slate-900 border-slate-700;
   }
-  
-  .metric-card {
-    @apply bg-white rounded-lg shadow-sm border border-gray-200 p-4;
-  }
-  
+
+
+  /* -------------------------------------------------------
+     ALERT CARDS
+     ------------------------------------------------------- */
+
   .alert-card {
     @apply rounded-lg border-l-4 p-4 mb-4;
   }
-  
+
   .alert-critical {
     @apply alert-card border-l-danger-500 bg-danger-50;
   }
-  
+
+  .dark .alert-critical {
+    background-color: rgba(127, 29, 29, 0.25);
+    border-color: #ef4444;
+  }
+
+
   .alert-warning {
     @apply alert-card border-l-warning-500 bg-warning-50;
   }
-  
+
+  .dark .alert-warning {
+    background-color: rgba(120, 53, 15, 0.25);
+    border-color: #f59e0b;
+  }
+
+
   .alert-info {
     @apply alert-card border-l-primary-500 bg-primary-50;
   }
-  
+
+  .dark .alert-info {
+    background-color: rgba(30, 58, 138, 0.25);
+    border-color: #3b82f6;
+  }
+
+
   .alert-success {
     @apply alert-card border-l-success-500 bg-success-50;
   }
-  
+
+  .dark .alert-success {
+    background-color: rgba(20, 83, 45, 0.25);
+    border-color: #22c55e;
+  }
+
+
+  /* -------------------------------------------------------
+     BUTTONS
+     ------------------------------------------------------- */
+
   .btn {
     @apply px-4 py-2 rounded-md font-medium transition-colors duration-200;
   }
-  
+
   .btn-primary {
     @apply btn bg-primary-600 text-white hover:bg-primary-700;
   }
-  
-  .btn-secondary {
-    @apply btn bg-gray-200 text-gray-900 hover:bg-gray-300;
+
+.btn-secondary {
+  @apply btn bg-gray-200 dark:bg-gray-800 text-gray-900 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-700;
+}
+
+  .dark .btn-secondary {
+    @apply bg-slate-700 text-gray-100 hover:bg-slate-600;
   }
-  
+
   .btn-success {
     @apply btn bg-success-600 text-white hover:bg-success-700;
   }
-  
+
   .btn-warning {
     @apply btn bg-warning-600 text-white hover:bg-warning-700;
   }
-  
+
   .btn-danger {
     @apply btn bg-danger-600 text-white hover:bg-danger-700;
   }
 }
 
+
+/* =========================================================
+   DARK MODE GLOBAL OVERRIDES
+   ========================================================= */
+
 @layer utilities {
-  .text-gradient {
-    @apply bg-gradient-to-r from-primary-600 to-primary-800 bg-clip-text text-transparent;
+
+  /* -------------------------------------------------------
+     BACKGROUNDS
+     ------------------------------------------------------- */
+
+  .dark .bg-white {
+    background-color: #0f172a !important;
   }
-  
+
+  .dark .bg-gray-50 {
+    background-color: #020617 !important;
+  }
+
+  .dark .bg-gray-100 {
+    background-color: #0f172a !important;
+  }
+
+  .dark .bg-gray-200 {
+    background-color: #1e293b !important;
+  }
+
+  .dark .bg-gray-300 {
+    background-color: #334155 !important;
+  }
+
+
+  /* -------------------------------------------------------
+     TEXT
+     ------------------------------------------------------- */
+
+  .dark .text-gray-900 {
+    color: #f8fafc !important;
+  }
+
+  .dark .text-gray-800 {
+    color: #f1f5f9 !important;
+  }
+
+  .dark .text-gray-700 {
+    color: #e2e8f0 !important;
+  }
+
+  .dark .text-gray-600 {
+    color: #cbd5e1 !important;
+  }
+
+  .dark .text-gray-500 {
+    color: #94a3b8 !important;
+  }
+
+  .dark .text-gray-400 {
+    color: #64748b !important;
+  }
+
+
+  /* -------------------------------------------------------
+     BORDERS
+     ------------------------------------------------------- */
+
+  .dark .border-gray-100 {
+    border-color: #1e293b !important;
+  }
+
+  .dark .border-gray-200 {
+    border-color: #334155 !important;
+  }
+
+  .dark .border-gray-300 {
+    border-color: #475569 !important;
+  }
+
+
+  /* -------------------------------------------------------
+     INPUTS
+     ------------------------------------------------------- */
+
+  .dark input,
+  .dark textarea,
+  .dark select {
+    background-color: #0f172a;
+    color: #f8fafc;
+    border-color: #334155;
+  }
+
+  .dark input::placeholder,
+  .dark textarea::placeholder {
+    color: #64748b;
+  }
+
+
+  /* -------------------------------------------------------
+     DIVIDERS
+     ------------------------------------------------------- */
+
+  .dark .divide-gray-200 > :not([hidden]) ~ :not([hidden]) {
+    border-color: #334155;
+  }
+
+
+  /* -------------------------------------------------------
+     ANIMATIONS
+     ------------------------------------------------------- */
+
   .animate-fade-in {
     animation: fadeIn 0.5s ease-in-out;
   }
-  
+
   @keyframes fadeIn {
     from {
       opacity: 0;
       transform: translateY(10px);
     }
+
     to {
       opacity: 1;
       transform: translateY(0);
     }
   }
-  
+
+
   .animate-slide-up {
     animation: slideUp 0.3s ease-out;
   }
-  
+
   @keyframes slideUp {
     from {
       opacity: 0;
       transform: translateY(20px);
     }
+
     to {
       opacity: 1;
       transform: translateY(0);
     }
+  }
+
+
+  /* -------------------------------------------------------
+     GRADIENT TEXT
+     ------------------------------------------------------- */
+
+  .text-gradient {
+    @apply bg-gradient-to-r from-primary-600 to-primary-800 bg-clip-text text-transparent;
   }
 }
