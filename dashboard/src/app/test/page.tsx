@@ -27,12 +27,15 @@ export default function TestPage() {
           success: true
         })
       } catch (error) {
-        console.error('API test failed:', error)
-        setApiStatus({
-          error: error.message,
-          success: false
-        })
-      } finally {
+  console.error('API test failed:', error)
+
+  setApiStatus({
+    error: error instanceof Error
+      ? error.message
+      : 'Unknown error occurred',
+    success: false
+  })
+} finally {
         setLoading(false)
       }
     }

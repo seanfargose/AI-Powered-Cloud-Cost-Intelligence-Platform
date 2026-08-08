@@ -48,9 +48,12 @@ export function AlertsPanel({ alerts }: AlertsPanelProps) {
   }
 
   const dismissAlert = (alertId: string) => {
-    setDismissedAlerts(prev => new Set([...prev, alertId]))
-  }
-
+  setDismissedAlerts(prev => {
+    const next = new Set(prev)
+    next.add(alertId)
+    return next
+  })
+}
   const getAlertIcon = (type: string) => {
     switch (type) {
       case 'critical':
